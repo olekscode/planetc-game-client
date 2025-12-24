@@ -9,7 +9,20 @@ export default function Home() {
   const [phase, setPhase] = useState("home"); // home | waiting | playing
   const [log, setLog] = useState([]);
 
-  const wsUrl = process.env.NEXT_PUBLIC_WS_URL;
+  const [wsUrl, setWsUrl] = useState(null);
+
+  useEffect(() => {
+    const wsPort = 8082;
+
+    const url =
+      (window.location.protocol === "https:" ? "wss://" : "ws://") +
+      window.location.hostname +
+      ":" + wsPort + "/ws";
+
+    setWsUrl(url);
+  }, []);
+
+  // const wsUrl = process.env.NEXT_PUBLIC_WS_URL;
 
   const ws = useMemo(() => {
     return createWS({
